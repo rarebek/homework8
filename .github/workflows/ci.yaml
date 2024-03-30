@@ -29,15 +29,15 @@ jobs:
           go get -u golang.org/x/lint/golint
 
       - name: Run REDIS Tests
-        working-directory: ./api-gateway/redis-tests/redistest
+        working-directory: ./api-gateway/redis-tests
         run: go test -v -coverprofile=coverage.out
 
       - name: Run KAFKA Consumer Tests
-        working-directory: ./user_service/kafka-test/kafkatest
+        working-directory: ./user_service/kafka-test
         run: go test -v -coverprofile=coverage.out
 
       - name: Run KAFKA Producer Tests
-        working-directory: ./api-gateway/kafka-test/kafkatest
+        working-directory: ./api-gateway/kafka-test
         run: go test -v -coverprofile=coverage.out
 
       - name: Upload Code Coverage
