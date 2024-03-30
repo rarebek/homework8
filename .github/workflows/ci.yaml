@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.1
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.22
+
+      - name: Install Dependencies
+        working-directory: ./api-gateway  
+        run: |
+          go mod download
+          go get -u golang.org/x/lint/golint
+
+      - name: Run REDIS Tests
+        working-directory: ./api-gateway/redis-tests/redistest
+        run: go test -v -coverprofile=coverage.out
+
+      - name: Run KAFKA Consumer Tests
+        working-directory: ./user_service/kafka-test/kafkatest
+        run: go test -v -coverprofile=coverage.out
+
+      - name: Run KAFKA Producer Tests
+        working-directory: ./api-gateway/kafka-test/kafkatest
+        run: go test -v -coverprofile=coverage.out
+
+      - name: Upload Code Coverage
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: ./api-gateway/coverage.out  
