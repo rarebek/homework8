@@ -28,6 +28,13 @@ jobs:
           go mod download
           go get -u golang.org/x/lint/golint
 
+      
+      - name: Install Dependencies
+        working-directory: ./user_service  
+        run: |
+          go mod download
+          go get -u golang.org/x/lint/golint
+
       - name: Run REDIS Tests
         working-directory: ./api-gateway/redis-tests
         run: go test -v -coverprofile=coverage.out
