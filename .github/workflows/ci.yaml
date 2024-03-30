@@ -36,7 +36,7 @@ jobs:
           go get -u golang.org/x/lint/golint
 
       - name: Run REDIS Tests
-        working-directory: ./api-gateway/redis-tests
+        working-directory: ./api-gateway/redis-test
         run: go test -v -coverprofile=coverage.out
 
       - name: Run KAFKA Consumer Tests
